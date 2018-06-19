@@ -1,0 +1,117 @@
+@model mlmStudio.Models.Product
+
+@{
+    ViewBag.Title = "Create";
+    if (Ajax.IsThisAjaxRequest())
+    {
+        Layout = null;
+    }
+}
+ 
+<script src="~/Content/TextEditor/jquery-te-1.4.0.min.js"></script>
+<link href="~/Content/TextEditor/jquery-te-1.4.0.css" rel="stylesheet" />
+<script>
+    $(function () { 
+       $('.ckeditor').jqte();
+    });
+</script>
+
+@Html.StarkAjaxFormSubmiter("frmProduct", "tbProduct", true, "Action Successfully Executed")
+ 
+@{
+    if (!Ajax.IsThisAjaxRequest())
+    {
+        <section class="content-header">
+            <h1>
+                @ViewBag.Title
+                <small>@ViewBag.Title</small>
+            </h1>
+        </section>
+    }
+}
+<script type="text/javascript">
+        $(function () { 
+            $('select').searchableOptionList({
+                maxHeight: '250px'
+            });
+        });
+</script>
+@using (Html.BeginForm("Create", "Product", FormMethod.Post, new { enctype = "multipart/form-data",id = "frmProduct"  }))
+{
+    @Html.AntiForgeryToken()
+          <!-- Main content -->
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-solid box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">Fill Product Form</h3>
+                    </div><!-- /.box-header -->
+                    <!-- form start -->
+                    <div role="form">
+                        <div class="box-body">
+                            <div class="alert alert-success alert-dismissable" id="dvMsgProduct" style="display:none;">
+                                <i class="fa fa-apple"></i> 
+                                 <b> Create Successfully. </b>   
+                            </div>
+                             
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Name, new { @class = "" })
+                                @Html.EditorFor(model => model.Name) @Html.ValidationMessageFor(model => model.Name)
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PurchaseCost, new { @class = "" })
+                                @Html.EditorFor(model => model.PurchaseCost) @Html.ValidationMessageFor(model => model.PurchaseCost)
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.SalePrice, new { @class = "" })
+                                @Html.EditorFor(model => model.SalePrice) @Html.ValidationMessageFor(model => model.SalePrice)
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.IsActive, new { @class = "" })
+                                @Html.EditorFor(model => model.IsActive) @Html.ValidationMessageFor(model => model.IsActive)
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ProductImage, new { @class = "" })
+                                <input id="ProductImage" name="ProductImage" type="file" />
+                                
+                                @Html.ValidationMessageFor(model => model.ProductImage)
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.BareCode, new { @class = "" })
+                                @Html.EditorFor(model => model.BareCode) @Html.ValidationMessageFor(model => model.BareCode)
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Description, new { @class = "" })
+                                @Html.TextAreaFor(model => model.Description, new { @class = "ckeditor" }) @Html.ValidationMessageFor(model => model.Description)
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Manufacturer, new { @class = "" })
+                                @Html.EditorFor(model => model.Manufacturer) @Html.ValidationMessageFor(model => model.Manufacturer)
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ProductCategoryId, new { @class = "" })
+                                @Html.DropDownList("ProductCategoryId"," -Select- ") 
+                                @Html.ValidationMessageFor(model => model.ProductCategoryId)
+                                @Html.StarkDropDownAjaxLink("/ProductCategory/Create", "AddMore","")
+                            </div>
+
+
+
+
+                        </div>
+                        <div class="box-footer">
+                            @Html.StarkInputButtion("Create New","submit","btn btn-primary","") 
+                            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+

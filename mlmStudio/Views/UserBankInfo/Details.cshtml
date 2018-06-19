@@ -1,0 +1,76 @@
+@model mlmStudio.Models.UserBankInfo
+
+@{
+    ViewBag.Title = "Details";
+    if (Ajax.IsThisAjaxRequest())
+    {
+        Layout = null;
+    }
+}
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small>Details</small>
+    </h1>
+</section>
+<section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col-xs-12">
+
+            <div class="box box-solid box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Detail of UserBankInfo</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body table-responsive">
+
+                    <div class="widget-sec">
+                        <div class="streaming-table">
+                            <table class="table table-striped table-bordered">
+
+                                <tr>
+                                    <td>AccountHolderName</td>
+                                    <td>@Html.DisplayFor(model => model.AccountHolderName)</td>
+                                </tr>
+                                <tr>
+                                    <td>UserId</td>
+                                    <td>@Html.DisplayFor(model => model.UserId)</td>
+                                </tr>
+                                <tr>
+                                    <td>BankName</td>
+                                    <td>@Html.DisplayFor(model => model.BankName)</td>
+                                </tr>
+                                <tr>
+                                    <td>AccountNumber</td>
+                                    <td>@Html.DisplayFor(model => model.AccountNumber)</td>
+                                </tr>
+                                <tr>
+                                    <td>Branch</td>
+                                    <td>@Html.DisplayFor(model => model.Branch)</td>
+                                </tr>
+                                <tr>
+                                    <td>IFCI_Code</td>
+                                    <td>@Html.DisplayFor(model => model.IFCI_Code)</td>
+                                </tr>
+                                <tr>
+                                    <td>IsActive</td>
+                                    <td>@Html.DisplayFor(model => model.IsActive)</td>
+                                </tr>
+
+ 
+                            </table>
+                            <div class="box-footer">
+                                @Ajax.ModalDialogActionLink("Edit", "Edit/" + Model.Id, "Edit", "btn btn-primary") 
+                                 
+                                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+

@@ -1,0 +1,392 @@
+﻿@model mlmStudio.ModelDto.homeDto
+@{
+    ViewBag.Title = "Home Page";
+}
+<section class="content-header">
+    <h1>
+        Dashboard
+        <small>   </small>
+    </h1>
+</section>
+<link rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css">
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+
+
+
+<section class="content">
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-primary direct-chat direct-chat-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">User Info</h3>
+                    <div class="box-tools pull-right">
+                        <button data-widget="collapse" class="btn btn-box-tool"><i class="fa fa-minus"></i></button>
+                        <button data-widget="remove" class="btn btn-box-tool"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body ">
+
+                    <button class="btn btn-primary btn-xs" id="plain">Plain</button>
+                    <button class="btn btn-info btn-xs" id="inverted">Inverted</button>
+                    <button class="btn btn-success btn-xs" id="polar">Polar</button>
+                    <div id="containerUserInfo"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="box box-primary direct-chat direct-chat-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">User And Roles</h3>
+                    <div class="box-tools pull-right">
+                        <button data-widget="collapse" class="btn btn-box-tool"><i class="fa fa-minus"></i></button>
+                        <button data-widget="remove" class="btn btn-box-tool"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body chart-responsive">
+                    <div id="containerRoleUser"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+
+                <div class="inner">
+                    <label for="Company Employee">User Count</label>
+
+                    <span class="info-box-number">@Model.User</span>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-address-book-o"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <label for="OficeEmployee">Role Count</label>
+
+                    <span class="info-box-number">@Model.Role</span>
+
+                </div>
+                <div class="icon">
+                    <i class="fa fa-asterisk"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+
+                    <label for="AttendencesOfEmployee">Country</label>
+                    <span class="info-box-number">@Model.Country</span>
+
+                </div>
+                <div class="icon">
+                    <i class="fa fa-audio-description"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <label for="AbsentEmployee">ePin Request</label>
+                    <span class="info-box-number">@Model.ePinRequest</span>
+                    @if (Model.ePinRequest > 0)
+                    {
+                        <button class="btn btn-primary btn-xs" id="btnApproveEpins">Approve</button>
+                    }
+                </div>
+                <div class="icon">
+                    <i class="fa fa-bars"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <!-- ./col -->
+
+    </div>
+
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+
+                <div class="inner">
+                    <label for="Company Employee">Invoice</label>
+
+                    <span class="info-box-number">@Model.Invoice</span>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-bathtub"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <label for="OficeEmployee">Ledger Acccount</label>
+
+                    <span class="info-box-number">@Model.LedgerAccount</span>
+
+                </div>
+                <div class="icon">
+                    <i class="fa fa-fw fa-dollar"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+
+                    <label for="AttendencesOfEmployee">Payment Status</label>
+                    <span class="info-box-number">@Model.PaymentStatus</span>
+
+                </div>
+                <div class="icon">
+                    <i class="fa fa-fw fa-money"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <label for="AbsentEmployee">Product</label>
+                    <span class="info-box-number">@Model.Product</span>
+
+                </div>
+                <div class="icon">
+                    <i class="fa fa-bed"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <!-- ./col -->
+
+    </div>
+
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+
+                <div class="inner">
+                    <label for="Company Employee">Reward</label>
+
+                    <span class="info-box-number">@Model.Reward</span>
+
+                </div>
+                <div class="icon">
+                    <i class="fa fa-beer"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <label for="OficeEmployee">Transaction</label>
+
+                    <span class="info-box-number">@Model.Transaction</span>
+
+                </div>
+                <div class="icon">
+                    <i class="fa fa-bell-o"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="box box-primary direct-chat direct-chat-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Last Week Register User</h3>
+                    <div class="box-tools pull-right">
+                        <button data-widget="collapse" class="btn btn-box-tool"><i class="fa fa-minus"></i></button>
+                        <button data-widget="remove" class="btn btn-box-tool"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body ">
+                    <div id="containerLastWeekReg"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</section>
+
+<script>
+    Highcharts.chart('containerRoleUser', {
+        chart: {
+            type: 'pie',
+            options3d: {
+                enabled: true,
+                alpha: 33
+            }
+        },
+        title: {
+            text: 'Role & Users'
+        },
+        //subtitle: {
+        //    text: 'g'
+        //},
+        plotOptions: {
+            pie: {
+                innerSize: 100,
+                depth: 45
+            }
+        },
+        series: [{
+            name: 'Total Count',
+            data: [
+                ['User', @ViewBag.Users],
+                ['Role', @ViewBag.Roles],
+            ]
+        }]
+    });
+
+    // LINE CHART
+    $(function () {
+        var line = new Morris.Line({
+            element: 'containerLastWeekReg',
+            resize: true,
+            data: [
+              @Html.Raw(ViewBag.linechart)
+            ],
+            xkey: 'y',
+            ykeys: ['User'],
+            labels: ['User Count'],
+            lineColors: ['#00a65a'],
+            hideHover: 'auto'
+        });
+
+
+    });
+
+
+
+
+    var chart = Highcharts.chart('containerUserInfo', {
+
+        title: {
+            text: 'User Full Information'
+        },
+
+        xAxis: {
+            categories: ['Contact Info', 'Bank Info', 'User Full Info']
+        },
+
+        series: [{
+            name: 'Total Count',
+            type: 'column',
+            colorByPoint: true,
+            data: [@ViewBag.UserContactInfos,@ViewBag.UserBankInfos,@ViewBag.UserPersonalInfos],
+            showInLegend: false
+        }], chart: {
+            inverted: false,
+            polar: true
+        }
+
+    });
+
+
+    $('#plain').click(function () {
+        chart.update({
+            chart: {
+                inverted: false,
+                polar: false
+            },
+            subtitle: {
+                text: 'Plain'
+            }
+        });
+    });
+
+    $('#inverted').click(function () {
+        chart.update({
+            chart: {
+                inverted: true,
+                polar: false
+            },
+            subtitle: {
+                text: 'Inverted'
+            }
+        });
+    });
+
+    $('#polar').click(function () {
+        chart.update({
+            chart: {
+                inverted: false,
+                polar: true
+            },
+            subtitle: {
+                text: 'Polar'
+            }
+        });
+    });
+
+
+
+    $(function () {
+        $('#btnApproveEpins').click(function () { 
+            $.ajax({
+                url: "@Url.Content("~/Home/ApproveEpins")",
+                type: "Post",
+                data: {},
+                dataType: 'json',//json
+                success: function (data) {
+                    alert(data);
+                },
+                error: function () {
+                    alert('error');
+                }
+            });
+        });
+
+    });
+
+</script> 

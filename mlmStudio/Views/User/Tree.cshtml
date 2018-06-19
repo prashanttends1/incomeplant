@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Tree";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link href="~/Content/UIControls/themes/default/easyui.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="~/Content/UIControls/themes/icon.css">
+<link href="~/Content/UIControls/demo/demo.css" rel="stylesheet" />
+<script src="~/Content/UIControls/jquery.min.js"></script>
+<script src="~/Content/UIControls/jquery.easyui.min.js"></script>
+ 
+
+
+<div class="box-body" style="overflow:auto;height:250px;">
+    <ul class="easyui-tree easyui-tooltip" title="hello" data-options="url:'@Url.Content("~/User/gettree/")',method:'get',animate:true,checkbox:true"></ul>
+
+</div>
+
+

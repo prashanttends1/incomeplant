@@ -1,0 +1,89 @@
+@model mlmStudio.Models.Country
+
+@{
+    ViewBag.Title = "Create";
+    if (Ajax.IsThisAjaxRequest())
+    {
+        Layout = null;
+    }
+}
+ 
+<script src="~/Content/TextEditor/jquery-te-1.4.0.min.js"></script>
+<link href="~/Content/TextEditor/jquery-te-1.4.0.css" rel="stylesheet" />
+<script>
+    $(function () { 
+       $('.ckeditor').jqte();
+    });
+</script>
+
+@Html.StarkAjaxFormSubmiter("frmCountry", "tbCountry", true, "Action Successfully Executed")
+ 
+@{
+    if (!Ajax.IsThisAjaxRequest())
+    {
+        <section class="content-header">
+            <h1>
+                @ViewBag.Title
+                <small>@ViewBag.Title</small>
+            </h1>
+        </section>
+    }
+}
+<script type="text/javascript">
+        $(function () { 
+            $('select').searchableOptionList({
+                maxHeight: '250px'
+            });
+        });
+</script>
+@using (Html.BeginForm("Create", "Country", FormMethod.Post, new { enctype = "multipart/form-data",id = "frmCountry"  }))
+{
+    @Html.AntiForgeryToken()
+          <!-- Main content -->
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-solid box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">Fill Country Form</h3>
+                    </div><!-- /.box-header -->
+                    <!-- form start -->
+                    <div role="form">
+                        <div class="box-body">
+                            <div class="alert alert-success alert-dismissable" id="dvMsgCountry" style="display:none;">
+                                <i class="fa fa-apple"></i> 
+                                 <b> Create Successfully. </b>   
+                            </div>
+                             
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Name, new { @class = "" })
+                                @Html.EditorFor(model => model.Name) @Html.ValidationMessageFor(model => model.Name)
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Code, new { @class = "" })
+                                @Html.EditorFor(model => model.Code) @Html.ValidationMessageFor(model => model.Code)
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.IsActive, new { @class = "" })
+                                @Html.EditorFor(model => model.IsActive) @Html.ValidationMessageFor(model => model.IsActive)
+                            </div>
+
+
+
+
+                        </div>
+                        <div class="box-footer">
+                            @Html.StarkInputButtion("Create New","submit","btn btn-primary","") 
+                            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+

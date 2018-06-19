@@ -1,0 +1,117 @@
+@model mlmStudio.Models.Transaction
+
+@{
+    ViewBag.Title = "Create";
+    if (Ajax.IsThisAjaxRequest())
+    {
+        Layout = null;
+    }
+}
+ 
+<script src="~/Content/TextEditor/jquery-te-1.4.0.min.js"></script>
+<link href="~/Content/TextEditor/jquery-te-1.4.0.css" rel="stylesheet" />
+<script>
+    $(function () { 
+       $('.ckeditor').jqte();
+    });
+</script>
+
+@Html.StarkAjaxFormSubmiter("frmTransaction", "tbTransaction", true, "Action Successfully Executed")
+ 
+@{
+    if (!Ajax.IsThisAjaxRequest())
+    {
+        <section class="content-header">
+            <h1>
+                @ViewBag.Title
+                <small>@ViewBag.Title</small>
+            </h1>
+        </section>
+    }
+}
+<script type="text/javascript">
+        $(function () { 
+            $('select').searchableOptionList({
+                maxHeight: '250px'
+            });
+        });
+</script>
+@using (Html.BeginForm("Create", "Transaction", FormMethod.Post, new { enctype = "multipart/form-data",id = "frmTransaction"  }))
+{
+    @Html.AntiForgeryToken()
+          <!-- Main content -->
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-solid box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">Fill Transaction Form</h3>
+                    </div><!-- /.box-header -->
+                    <!-- form start -->
+                    <div role="form">
+                        <div class="box-body">
+                            <div class="alert alert-success alert-dismissable" id="dvMsgTransaction" style="display:none;">
+                                <i class="fa fa-apple"></i> 
+                                 <b> Create Successfully. </b>   
+                            </div>
+                             
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Title, new { @class = "" })
+                                @Html.EditorFor(model => model.Title) @Html.ValidationMessageFor(model => model.Title)
+                            </div>
+                            <div class="form-group">
+                                @Html.Hidden("DateAdded", DateTime.Now) @Html.ValidationMessageFor(model => model.DateAdded)
+                            </div>
+                            <div class="form-group">
+                                @Html.Hidden("AddedBy", Env.GetUserInfo("userid")) @Html.ValidationMessageFor(model => model.AddedBy)
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CompanyOfficeId, new { @class = "" })
+                                @Html.EditorFor(model => model.CompanyOfficeId) @Html.ValidationMessageFor(model => model.CompanyOfficeId)
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DebitLedgerAccountId, new { @class = "" })
+                                @Html.DropDownList("DebitLedgerAccountId"," -Select- ") 
+                                @Html.ValidationMessageFor(model => model.DebitLedgerAccountId)
+                                @Html.StarkDropDownAjaxLink("/LedgerAccount/Create", "AddMore","")
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DebitAmount, new { @class = "" })
+                                @Html.EditorFor(model => model.DebitAmount) @Html.ValidationMessageFor(model => model.DebitAmount)
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CreditLedgerAccountId, new { @class = "" })
+                                @Html.DropDownList("CreditLedgerAccountId"," -Select- ") 
+                                @Html.ValidationMessageFor(model => model.CreditLedgerAccountId)
+                                @Html.StarkDropDownAjaxLink("/LedgerAccount/Create", "AddMore","")
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CreditAmount, new { @class = "" })
+                                @Html.EditorFor(model => model.CreditAmount) @Html.ValidationMessageFor(model => model.CreditAmount)
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TransactionDate, new { @class = "" }) 
+                                @Html.EditorFor(model => model.TransactionDate, new { htmlAttributes = new { @class = "" } })
+                                <script> $(function () { $("#TransactionDate").datepicker(); }); </script>
+                                @Html.ValidationMessageFor(model => model.TransactionDate)
+                            </div>
+
+
+
+
+                        </div>
+                        <div class="box-footer">
+                            @Html.StarkInputButtion("Create New","submit","btn btn-primary","") 
+                            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+

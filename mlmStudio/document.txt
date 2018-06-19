@@ -1,0 +1,97 @@
+﻿1>
+menu setting..
+
+role user
+ role
+ user
+ roleuser
+
+menu & access
+ menu
+ menu permission
+
+master utility
+ membreship level
+ gender
+ country
+ state
+ payment mode type
+ product catagory
+ payment stats
+ reward type
+ ledger account type
+
+affiliate management
+ user 
+ userpersonal information
+ user contact info
+ user bank info
+ reward user
+ epin request
+ ledgeraccount
+ tree
+ binary tree
+
+product management
+ product 
+ product catagory
+
+invoice managemnt
+ invoivce
+ invoive item
+ invoice transaction
+
+reward management
+ reward type
+ reward 
+
+Epin
+ epin requests
+ epin code
+ pin genrate
+
+donation management
+ donation request
+ donatoin transaaction
+
+ledger managemnt
+ ledger account type
+ ledger aacount
+ trasncation
+
+
+ 
+..................
+
+.
+2> 
+dashboard...
+user,role,country,epin request, invoice, ledger aaccount,
+payment status,product,reward,transaction,
+
+donut chart,,,,,,,,
+user ,role,
+
+2>donut chart affilate.......
+user
+bank info
+contact info
+personal info
+
+line chart,,,,
+last week registed user,
+
+
+3>
+tree simple
+&binary  tree
+4>
+pin genrate
+
+5>
+
+insert into MenuPermission select Id as MenuId,1 as RoleId,null as Userid , SortOrder as sortorder,
+1 as isnavbar,1 as iscreate,1 as isread,1 as isupdate,1 as isdelete
+ from   Menu  
+ 
+ 
