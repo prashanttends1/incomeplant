@@ -13,12 +13,17 @@ using mlmStudio.ModelDto;
 
 namespace mlmStudio.Controllers
 {
+    
     public class UserController : Controller
     {
         // GET: /User/
+        
         public ActionResult Index()
         {
-            return View();
+            if (Env.GetUserInfo("roleid") == "1" )
+                return View();            
+            else
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
         }
 
         public ActionResult Tree()
@@ -197,20 +202,29 @@ namespace mlmStudio.Controllers
         // GET: /User/Edit/5
         public ActionResult Edit(int? id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             User ObjUser = db.Users.Find(id);
-            if (ObjUser == null)
+
+            if (ObjUser == null )
             {
                 return HttpNotFound();
             }
-            ViewBag.ParentId = new SelectList(db.Users, "Id", "Username", ObjUser.ParentId);
-            ViewBag.LegId = new SelectList(db.Legs, "Id", "Name", ObjUser.LegId);
-            ViewBag.MemberShipLevelId = new SelectList(db.MemberShipLevels, "Id", "Title", ObjUser.MemberShipLevelId);
+            else if (User.Identity.Name == ObjUser.Username || Env.GetUserInfo("roleid")=="1")
+            {
+                ViewBag.ParentId = new SelectList(db.Users, "Id", "Username", ObjUser.ParentId);
+                ViewBag.LegId = new SelectList(db.Legs, "Id", "Name", ObjUser.LegId);
+                ViewBag.MemberShipLevelId = new SelectList(db.MemberShipLevels, "Id", "Title", ObjUser.MemberShipLevelId);
 
-            return View(ObjUser);
+                return View(ObjUser);
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
         }
 
         // POST: /User/Edit/5
@@ -298,17 +312,24 @@ namespace mlmStudio.Controllers
         public ActionResult MultiViewIndex(int? id)
         {
             User ObjUser = db.Users.Find(id);
-            ViewBag.IsWorking = 0;
-            if (id > 0)
+            if (User.Identity.Name == ObjUser.Username || Env.GetUserInfo("roleid") == "1")
             {
-                ViewBag.IsWorking = id;
-                ViewBag.ParentId = new SelectList(db.Users, "Id", "Username", ObjUser.ParentId);
-                ViewBag.LegId = new SelectList(db.Legs, "Id", "Name", ObjUser.LegId);
-                ViewBag.MemberShipLevelId = new SelectList(db.MemberShipLevels, "Id", "Title", ObjUser.MemberShipLevelId);
+                ViewBag.IsWorking = 0;
+                if (id > 0)
+                {
+                    ViewBag.IsWorking = id;
+                    ViewBag.ParentId = new SelectList(db.Users, "Id", "Username", ObjUser.ParentId);
+                    ViewBag.LegId = new SelectList(db.Legs, "Id", "Name", ObjUser.LegId);
+                    ViewBag.MemberShipLevelId = new SelectList(db.MemberShipLevels, "Id", "Title", ObjUser.MemberShipLevelId);
 
+                }
+
+                return View(ObjUser);
             }
-
-            return View(ObjUser);
+            else
+            {
+               return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
         }
 
 

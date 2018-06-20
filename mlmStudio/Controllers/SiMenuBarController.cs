@@ -46,34 +46,41 @@ namespace mlmStudio.Controllers
             StringBuilder sb = new StringBuilder();
             if (q != null)
             {
+                int rt = 1;
                 foreach (var item in q.Where(i => i.Menu_MenuId.ParentId == ParentId).OrderBy(i=>i.SortOrder))
                 {
-                    var js = q;
+                    
+                        var js = q;
 
-                    if (js.Count(j => j.Menu_MenuId.ParentId == item.Menu_MenuId.Id) > 0)
-                    {
-                        if (item.Menu_MenuId.ParentId == null)
+                        if (js.Count(j => j.Menu_MenuId.ParentId == item.Menu_MenuId.Id) > 0)
                         {
-                            sb.Append("<li class=\"treeview\"> <a href=\"#\"> <i class=\"fa fa-folder\"></i> <span>" + item.Menu_MenuId.MenuText + "</span> <i class=\"fa fa-angle-left pull-right\"></i>  </a><ul class=\"treeview-menu\">");
+                            if (rt < 2)
+                            {
+                            if (item.Menu_MenuId.ParentId == null)
+                            {
+                                sb.Append("<li class=\"treeview\"> <a href=\"#\"> <i class=\"fa fa-folder\"></i> <span>" + item.Menu_MenuId.MenuText + "</span> <i class=\"fa fa-angle-left pull-right\"></i>  </a><ul class=\"treeview-menu\">");
+                            }
+                            else
+                            {
+                                sb.Append("<li class=\"treeview\"> <a href=\"#\"> <i class=\"fa fa-folder\"></i> <span>" + item.Menu_MenuId.MenuText + "</span> <i class=\"fa fa-angle-left pull-right\"></i>  </a><ul class=\"treeview-menu\">");
+                            }
+                            sb.Append(GetMenuBar(item.Menu_MenuId.Id, q));
+                            }
+                            rt++;
                         }
                         else
                         {
-                            sb.Append("<li class=\"treeview\"> <a href=\"#\"> <i class=\"fa fa-folder\"></i> <span>" + item.Menu_MenuId.MenuText + "</span> <i class=\"fa fa-angle-left pull-right\"></i>  </a><ul class=\"treeview-menu\">");
-                        }
-                        sb.Append(GetMenuBar(item.Menu_MenuId.Id, q));
-                    }
-                    else
-                    {
-                        if (item.Menu_MenuId.ParentId == null)
-                        {
-                            sb.Append("<li class=\"\"> <a href=\"" + MicrosoftHelper.MSHelper.GetSiteRoot() + "/" + item.Menu_MenuId.MenuURL + "\"><i class=\"fa fa-angle-double-right\"></i>  " + item.Menu_MenuId.MenuText + "</a></li>");
-                        }
-                        else
-                        {
-                            sb.Append("<li class=\"\"> <a href=\"" + MicrosoftHelper.MSHelper.GetSiteRoot() + "/" + item.Menu_MenuId.MenuURL + "\"><i class=\"fa fa-angle-double-right\"></i>  " + item.Menu_MenuId.MenuText + "</a></li>");
-                        }
+                            if (item.Menu_MenuId.ParentId == null)
+                            {
+                                sb.Append("<li class=\"\"> <a href=\"" + MicrosoftHelper.MSHelper.GetSiteRoot() + "/" + item.Menu_MenuId.MenuURL + "\"><i class=\"fa fa-angle-double-right\"></i>  " + item.Menu_MenuId.MenuText + "</a></li>");
+                            }
+                            else
+                            {
+                                sb.Append("<li class=\"\"> <a href=\"" + MicrosoftHelper.MSHelper.GetSiteRoot() + "/" + item.Menu_MenuId.MenuURL + "\"><i class=\"fa fa-angle-double-right\"></i>  " + item.Menu_MenuId.MenuText + "</a></li>");
+                            }
 
-                    }
+                        }
+                    
 
                 }
                 sb.Append("</ul>");

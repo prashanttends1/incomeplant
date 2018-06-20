@@ -16,7 +16,10 @@ namespace mlmStudio.Controllers
         // GET: /Role/
         public ActionResult Index()
         {
-            return View();
+            if (Env.GetUserInfo("roleid") == "1")
+                return View();
+            else
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
         }
         
         // GET Role/GetGrid
