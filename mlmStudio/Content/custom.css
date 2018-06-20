@@ -5,7 +5,13 @@ li.treeview:nth-of-type(2){display:block}
 
 .alert-warning{float:left}
 
-hidden
+.hidden
 {
     display:none;
+}
+.loyout_logo
+{
+    width:200px;
+    padding-top: 5px;
+    padding-bottom: 10px;
 }
