@@ -66,15 +66,15 @@ namespace mlmStudio.Controllers
             user.Password = frmCollection["password2"];
             user.MemberShipLevelId = 1;
             db.Users.Add(user);
-
+            db.SaveChanges();
             //REGISTER USER ROLE
             RoleUser roleuser = new RoleUser();
-            roleuser.RoleId = 1;
+            roleuser.RoleId = 2;
             roleuser.UserId = user.Id;
             db.RoleUsers.Add(roleuser);
             db.SaveChanges();
             
-            ViewBag.Msg = "Register Successfully";
+            ViewBag.Msg = "Register Successfully! ";
             return View();
         }
 

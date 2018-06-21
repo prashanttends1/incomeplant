@@ -92,7 +92,7 @@
         @ViewBag.Title
     </h1>
 </section>
-<script type="text/javascript">
+@*<script type="text/javascript">
     $(function () {
         $('select').searchableOptionList({
             maxHeight: '250px'
@@ -137,14 +137,14 @@
          
 
     });
-</script>
+</script>*@
 
 @Html.StarkAjaxFormSubmiter("frmUser", "tbUser", true, "Action Successfully Executed")
 <section class="content">
     <!-- Small boxes (Stat box) -->
     <div class="row">
 
-        <div class="col-md-6">
+        @*<div class="col-md-6">
             <div class="box box-primary direct-chat direct-chat-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">Graphical Info</h3>
@@ -173,13 +173,13 @@
                      
                 </div>
             </div>
-        </div>
+        </div>*@
 
         <div class="col-xs-12">
             <div class="box box-solid box-primary">
 
                 <div id="tabs">
-                    <ul>
+                    @*<ul>
                         <li><a href="#EditThis">Edit</a></li>
                         <li><a href="#RoleUser">Role User</a></li>
                         <li><a href="#MenuPermission">Menu Permission</a></li>
@@ -192,7 +192,7 @@
                         <li><a href="#DonationRequest">Donation Request</a></li>
                         <li><a href="#LedgerAccount">Ledger Account</a></li>
 
-                    </ul>
+                    </ul>*@
 
                     <div id="EditThis" style="height:700px;overflow:auto;">
                         @using (Html.BeginForm("MultiViewIndex", "User", FormMethod.Post, new { enctype = "multipart/form-data", id = "frmUser" }))
@@ -265,7 +265,7 @@
                         }
                     </div>
 
-                    <div id="RoleUser" style="overflow:auto !important;">
+                    @*<div id="RoleUser" style="overflow:auto !important;">
                         <div class="box box-solid box-primary">
                             <div class="box-body">
                                 @Html.StarkAjaxLink("Create New", "/RoleUser/Create", "StarkRoleUser")
@@ -536,7 +536,7 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
+                    </div>*@
 
                 </div>
 

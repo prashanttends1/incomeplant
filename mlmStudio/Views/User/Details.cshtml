@@ -48,7 +48,7 @@
                                     <td>MemberShipLevelId</td>
                                     <td>@Html.DisplayFor(model => model.MemberShipLevelId)</td>
                                 </tr>
-                                <tr>
+                                <tr class="hidden">
                                     <td>RegisterPin</td>
                                     <td>@Html.DisplayFor(model => model.RegisterPin)</td>
                                 </tr>
@@ -58,7 +58,7 @@
                             <div class="box-footer">
                                 @Ajax.ModalDialogActionLink("Edit", "Edit/" + Model.Id, "Edit", "btn btn-primary") 
                                  
-                                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+                                @*@Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })*@
                             </div>
                         </div>
                     </div>
