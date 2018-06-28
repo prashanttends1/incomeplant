@@ -25,7 +25,6 @@ namespace mlmStudio.Controllers
             //get role id and role regarding to role bind this
             var userId = Convert.ToInt32(Env.GetUserInfo("userid"));
             var RoleId = Convert.ToInt32(Env.GetUserInfo("roleid"));
-
             var q = db.MenuPermissions.Where(i => i.RoleId == RoleId || i.UserId == userId).ToArray();
             sb.Append("<ul class=\"sidebar-menu\">");
             sb.Append("<li class=\"active\"> <a href=\"" + MicrosoftHelper.MSHelper.GetSiteRoot() + "/Home\"> <i class=\"fa fa-dashboard\"></i> <span>Dashboard</span> </a> </li>");

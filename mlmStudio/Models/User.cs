@@ -15,13 +15,21 @@ namespace mlmStudio.Models
         [StringLength(100)] 
         [DisplayName("Username")] 
         public string Username { get; set; }
+        [DisplayName("Email")]
+        public string Email { get; set; }
         [Required]
         [StringLength(100)] 
         [DisplayName("Password")] 
         public string Password { get; set; }
         [DisplayName("Parent")] 
+
         public Nullable<int> ParentId { get; set; }
         public virtual User User2 { get; set; }
+
+        [DisplayName("Sponser")]
+        public Nullable<int> SponserId { get; set; }
+        public virtual User User3 { get; set; }
+
         [DisplayName("Leg")] 
         public int? LegId { get; set; }
         public virtual Leg Leg_LegId { get; set; }

@@ -124,6 +124,7 @@ namespace mlmStudio.Controllers
             Convert.ToString(c.Username), 
             Convert.ToString(c.Password), 
             Convert.ToString(c.ParentId),
+            Convert.ToString(c.SponserId),
             Convert.ToString(c.Leg_LegId !=null?c.Leg_LegId.Name:""), 
             Convert.ToString(c.MemberShipLevel_MemberShipLevelId.Title), 
             Convert.ToString(c.RegisterPin), Convert.ToString(c.ProductId), 
@@ -153,6 +154,7 @@ namespace mlmStudio.Controllers
         public ActionResult Create()
         {
             ViewBag.ParentId = new SelectList(db.Users, "Id", "Username");
+            ViewBag.SponserId = new SelectList(db.Users, "Id", "Username");
             ViewBag.LegId = new SelectList(db.Legs, "Id", "Name");
             ViewBag.MemberShipLevelId = new SelectList(db.MemberShipLevels, "Id", "Title");
 
@@ -216,6 +218,7 @@ namespace mlmStudio.Controllers
             else if (User.Identity.Name == ObjUser.Username || Env.GetUserInfo("roleid")=="1")
             {
                 ViewBag.ParentId = new SelectList(db.Users, "Id", "Username", ObjUser.ParentId);
+                ViewBag.SponserId = new SelectList(db.Users, "Id", "Username", ObjUser.SponserId);
                 ViewBag.LegId = new SelectList(db.Legs, "Id", "Name", ObjUser.LegId);
                 ViewBag.MemberShipLevelId = new SelectList(db.MemberShipLevels, "Id", "Title", ObjUser.MemberShipLevelId);
 
@@ -319,6 +322,7 @@ namespace mlmStudio.Controllers
                 {
                     ViewBag.IsWorking = id;
                     ViewBag.ParentId = new SelectList(db.Users, "Id", "Username", ObjUser.ParentId);
+                    ViewBag.SponserId = new SelectList(db.Users, "Id", "Username", ObjUser.SponserId);
                     ViewBag.LegId = new SelectList(db.Legs, "Id", "Name", ObjUser.LegId);
                     ViewBag.MemberShipLevelId = new SelectList(db.MemberShipLevels, "Id", "Title", ObjUser.MemberShipLevelId);
 
