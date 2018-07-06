@@ -1,0 +1,51 @@
+﻿@model mlmStudio.Models.User
+@{
+    ViewBag.Title = "Show KYC";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<section class="content-header">
+    
+</section>
+
+<section class="content">
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <div class="box box-solid box-primary">
+                <div class="box-header margin-bottom">
+                    <h3 class="box-title">KYC UPLOADS</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body table-responsive">
+
+                    <div class="widget-sec">
+                        <div class="col-lg-12 col-xs-12 margin-bottom">
+                            <img src="~/@Model.pan" alt="User Image">
+                            <h3>PAN CARD</h3>
+                        </div>
+                        <div class="col-lg-12 col-xs-12 margin-bottom">
+                            <img src="~/@Model.bank" alt="User Image">
+                            <h3>BANK Proof</h3>
+
+                        </div>
+                        <div class="col-lg-12 col-xs-12 margin-bottom">
+                            <img src="~/@Model.photo" alt="User Image">
+                            <h3>Photo</h3>
+
+                        </div>
+                        <div class="col-lg-12 col-xs-12 margin-bottom">
+                            <img src="~/@Model.address" alt="User Image">
+                            <h3>Address Proof</h3>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

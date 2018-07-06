@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel;
 
 namespace mlmStudio.Models
@@ -14,6 +15,7 @@ namespace mlmStudio.Models
         [Required]
         [StringLength(100)] 
         [DisplayName("Username")] 
+        [Index(IsUnique=true)]
         public string Username { get; set; }
         [DisplayName("Email")]
         public string Email { get; set; }
@@ -40,6 +42,10 @@ namespace mlmStudio.Models
         [StringLength(35)] 
         [DisplayName("Register Pin")] 
         public string RegisterPin { get; set; }
+        public string pan { get; set; }
+        public string bank { get; set; }
+        public string photo { get; set; }
+        public string address { get; set; }
         public Nullable<int> ProductId { get; set; }
         public virtual ICollection<RoleUser> RoleUser_UserIds { get; set; }
         public virtual ICollection<MenuPermission> MenuPermission_UserIds { get; set; }

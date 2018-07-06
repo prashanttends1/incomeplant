@@ -45,7 +45,7 @@ namespace mlmStudio.Controllers
             StringBuilder sb = new StringBuilder();
             if (q != null)
             {
-                int rt = 1;
+                int rt = 1; //rt stands for menuitem 
                 foreach (var item in q.Where(i => i.Menu_MenuId.ParentId == ParentId).OrderBy(i=>i.SortOrder))
                 {
                     
@@ -53,7 +53,9 @@ namespace mlmStudio.Controllers
 
                         if (js.Count(j => j.Menu_MenuId.ParentId == item.Menu_MenuId.Id) > 0)
                         {
-                            if (rt < 2)
+                            //if (rt == 2)
+                            //{ continue; }
+                            if (rt < 4 && rt!=2)
                             {
                             if (item.Menu_MenuId.ParentId == null)
                             {
@@ -69,15 +71,18 @@ namespace mlmStudio.Controllers
                         }
                         else
                         {
-                            if (item.Menu_MenuId.ParentId == null)
-                            {
-                                sb.Append("<li class=\"\"> <a href=\"" + MicrosoftHelper.MSHelper.GetSiteRoot() + "/" + item.Menu_MenuId.MenuURL + "\"><i class=\"fa fa-angle-double-right\"></i>  " + item.Menu_MenuId.MenuText + "</a></li>");
-                            }
-                            else
-                            {
-                                sb.Append("<li class=\"\"> <a href=\"" + MicrosoftHelper.MSHelper.GetSiteRoot() + "/" + item.Menu_MenuId.MenuURL + "\"><i class=\"fa fa-angle-double-right\"></i>  " + item.Menu_MenuId.MenuText + "</a></li>");
-                            }
-
+                            
+                            
+                                if (item.Menu_MenuId.ParentId == null)
+                                {
+                                    sb.Append("<li class=\"\"> <a href=\"" + MicrosoftHelper.MSHelper.GetSiteRoot() + "/" + item.Menu_MenuId.MenuURL + "\"><i class=\"fa fa-angle-double-right\"></i>  " + item.Menu_MenuId.MenuText + "</a></li>");
+                                }
+                                else
+                                {
+                                    sb.Append("<li class=\"\"> <a href=\"" + MicrosoftHelper.MSHelper.GetSiteRoot() + "/" + item.Menu_MenuId.MenuURL + "\"><i class=\"fa fa-angle-double-right\"></i>  " + item.Menu_MenuId.MenuText + "</a></li>");
+                                }
+                            
+                            
                         }
                     
 
