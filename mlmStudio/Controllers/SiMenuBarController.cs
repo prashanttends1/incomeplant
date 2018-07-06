@@ -25,7 +25,6 @@ namespace mlmStudio.Controllers
             //get role id and role regarding to role bind this
             var userId = Convert.ToInt32(Env.GetUserInfo("userid"));
             var RoleId = Convert.ToInt32(Env.GetUserInfo("roleid"));
-
             var q = db.MenuPermissions.Where(i => i.RoleId == RoleId || i.UserId == userId).ToArray();
             sb.Append("<ul class=\"sidebar-menu\">");
             sb.Append("<li class=\"active\"> <a href=\"" + MicrosoftHelper.MSHelper.GetSiteRoot() + "/Home\"> <i class=\"fa fa-dashboard\"></i> <span>Dashboard</span> </a> </li>");
@@ -46,7 +45,7 @@ namespace mlmStudio.Controllers
             StringBuilder sb = new StringBuilder();
             if (q != null)
             {
-                int rt = 1;
+                int rt = 1; //rt stands for menuitem 
                 foreach (var item in q.Where(i => i.Menu_MenuId.ParentId == ParentId).OrderBy(i=>i.SortOrder))
                 {
                     
@@ -54,7 +53,9 @@ namespace mlmStudio.Controllers
 
                         if (js.Count(j => j.Menu_MenuId.ParentId == item.Menu_MenuId.Id) > 0)
                         {
-                            if (rt < 2)
+                            //if (rt == 2)
+                            //{ continue; }
+                            if (rt < 4 && rt!=2)
                             {
                             if (item.Menu_MenuId.ParentId == null)
                             {
@@ -70,15 +71,18 @@ namespace mlmStudio.Controllers
                         }
                         else
                         {
-                            if (item.Menu_MenuId.ParentId == null)
-                            {
-                                sb.Append("<li class=\"\"> <a href=\"" + MicrosoftHelper.MSHelper.GetSiteRoot() + "/" + item.Menu_MenuId.MenuURL + "\"><i class=\"fa fa-angle-double-right\"></i>  " + item.Menu_MenuId.MenuText + "</a></li>");
-                            }
-                            else
-                            {
-                                sb.Append("<li class=\"\"> <a href=\"" + MicrosoftHelper.MSHelper.GetSiteRoot() + "/" + item.Menu_MenuId.MenuURL + "\"><i class=\"fa fa-angle-double-right\"></i>  " + item.Menu_MenuId.MenuText + "</a></li>");
-                            }
-
+                            
+                            
+                                if (item.Menu_MenuId.ParentId == null)
+                                {
+                                    sb.Append("<li class=\"\"> <a href=\"" + MicrosoftHelper.MSHelper.GetSiteRoot() + "/" + item.Menu_MenuId.MenuURL + "\"><i class=\"fa fa-angle-double-right\"></i>  " + item.Menu_MenuId.MenuText + "</a></li>");
+                                }
+                                else
+                                {
+                                    sb.Append("<li class=\"\"> <a href=\"" + MicrosoftHelper.MSHelper.GetSiteRoot() + "/" + item.Menu_MenuId.MenuURL + "\"><i class=\"fa fa-angle-double-right\"></i>  " + item.Menu_MenuId.MenuText + "</a></li>");
+                                }
+                            
+                            
                         }
                     
 

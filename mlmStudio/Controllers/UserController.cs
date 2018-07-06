@@ -10,6 +10,8 @@ using System.IO;
 using mlmStudio.Models;
 using mlmStudio.ModelDto.Tree;
 using mlmStudio.ModelDto;
+using mlmStudio.Utility;
+
 
 namespace mlmStudio.Controllers
 {
@@ -28,10 +30,75 @@ namespace mlmStudio.Controllers
 
         public ActionResult Tree()
         {
+            string x=User.Identity.Name;
             return View();
         }
 
+        public ActionResult showkyc()
+        {
+            string Username = Env.GetUserInfo("name");
+            User u = db.Users.Where(ux => ux.Username == Username).SingleOrDefault();
+            return View(u);
+        }
+        public ActionResult uploadkyc()
+        {
+            string Username = Env.GetUserInfo("name");
+            User u = db.Users.Where(ux => ux.Username == Username).SingleOrDefault();
+            if (u.pan == null)
+                return View();
+            else
+                return RedirectToAction("showkyc");
+        }
 
+        [HttpPost]
+        public ActionResult uploadkyc(HttpPostedFileBase pan, HttpPostedFileBase bank, HttpPostedFileBase photo, HttpPostedFileBase address)
+        {
+            int id=0;
+            try
+            {
+                if (pan != null && pan.ContentLength > 0 && bank != null && photo != null && address != null && bank.ContentLength > 0 && photo.ContentLength > 0 && address.ContentLength > 0 && (pan.ContentType == "image/jpeg" || pan.ContentType == "image/png") || (bank.ContentType == "image/jpeg" && bank.ContentType == "image/png") || (photo.ContentType == "image/jpeg" && photo.ContentType == "image/png") || (address.ContentType == "image/jpeg" && address.ContentType == "image/png"))
+                {
+                    string token = Guid.NewGuid().ToString();
+                    string path = Path.Combine(Server.MapPath("~/Uploads/"), Path.GetFileName(Env.GetUserInfo("name")+"-doc-PAN-" + token+ "-"+ pan.FileName));
+                    pan.SaveAs(path);
+                    string pathbank = Path.Combine(Server.MapPath("~/Uploads/"), Path.GetFileName(Env.GetUserInfo("name") + "-doc-BANK-" + token + "-" + bank.FileName));
+                    bank.SaveAs(pathbank);
+                    string pathphoto = Path.Combine(Server.MapPath("~/Uploads/"), Path.GetFileName(Env.GetUserInfo("name") + "-doc-PHOTO-" + token + "-" + photo.FileName));
+                    photo.SaveAs(pathphoto);
+                    string pathaddress = Path.Combine(Server.MapPath("~/Uploads/"), Path.GetFileName(Env.GetUserInfo("name") + "-doc-ADDRESS-" + token + "-" + address.FileName));
+                    address.SaveAs(pathaddress);
+                    id = int.Parse( Env.GetUserInfo("userid"));
+
+                    Models.User u = db.Users.Find(id);
+                    if (u != null)
+                    {
+                        u.pan = Path.Combine("Uploads/", Path.GetFileName(Env.GetUserInfo("name") + "-doc-PAN-" + token + "-" + pan.FileName)); 
+                        u.bank = Path.Combine("Uploads/", Path.GetFileName(Env.GetUserInfo("name") + "-doc-BANK-" + token + "-" + bank.FileName)); 
+                        u.address = Path.Combine("Uploads/", Path.GetFileName(Env.GetUserInfo("name") + "-doc-PHOTO-" + token + "-" + photo.FileName));
+                        u.photo = Path.Combine("Uploads/", Path.GetFileName(Env.GetUserInfo("name") + "-doc-ADDRESS-" + token + "-" + address.FileName));                        
+                        db.Users.Attach(u);
+                        db.Entry(u).Property("pan").IsModified = true;
+                        db.Entry(u).Property("bank").IsModified = true;
+                        db.Entry(u).Property("address").IsModified = true;
+                        db.Entry(u).Property("photo").IsModified = true;
+                        db.SaveChanges();
+                        ViewBag.Message = "File Uploaded Successfully!";
+                    }
+                    else
+                        ViewBag.Message = "User not Specified " ;
+                }
+                else
+                {
+                    ViewBag.Message = "File not Specified ";
+                }
+            }
+            catch(Exception ex)
+            {
+                ViewBag.Message = "Error: "+ ex.Message ;
+            }
+            return View();
+
+        }
        
         public JsonResult gettree()
         {
@@ -80,6 +147,8 @@ namespace mlmStudio.Controllers
             return childList;
         }
 
+
+
         
          
 
@@ -99,14 +168,21 @@ namespace mlmStudio.Controllers
 
             foreach (var item in pcTable)
             {
-                empChartList.Add(new TreeOrg()
+                try
                 {
-                    Id = item.Id,
-                    UserName = item.Username,
-                    Designation = item.Username,
-                    Leg = item.Leg_LegId.Name,
-                    ParentId = item.ParentId==null?0:item.ParentId.Value
-                });
+                    empChartList.Add(new TreeOrg()
+                    {
+                        Id = item.Id,
+                        UserName = item.Username,
+                        Designation = item.Username,
+                        Leg = item.Leg_LegId.Name,
+                        ParentId = item.ParentId == null ? 0 : item.ParentId.Value
+                    });
+                }
+                catch(Exception /*ex*/)
+                {
+                    
+                }
             }
                        
 
@@ -124,6 +200,7 @@ namespace mlmStudio.Controllers
             Convert.ToString(c.Username), 
             Convert.ToString(c.Password), 
             Convert.ToString(c.ParentId),
+            Convert.ToString(c.SponserId),
             Convert.ToString(c.Leg_LegId !=null?c.Leg_LegId.Name:""), 
             Convert.ToString(c.MemberShipLevel_MemberShipLevelId.Title), 
             Convert.ToString(c.RegisterPin), Convert.ToString(c.ProductId), 
@@ -153,6 +230,7 @@ namespace mlmStudio.Controllers
         public ActionResult Create()
         {
             ViewBag.ParentId = new SelectList(db.Users, "Id", "Username");
+            ViewBag.SponserId = new SelectList(db.Users, "Id", "Username");
             ViewBag.LegId = new SelectList(db.Legs, "Id", "Name");
             ViewBag.MemberShipLevelId = new SelectList(db.MemberShipLevels, "Id", "Title");
 
@@ -216,6 +294,7 @@ namespace mlmStudio.Controllers
             else if (User.Identity.Name == ObjUser.Username || Env.GetUserInfo("roleid")=="1")
             {
                 ViewBag.ParentId = new SelectList(db.Users, "Id", "Username", ObjUser.ParentId);
+                ViewBag.SponserId = new SelectList(db.Users, "Id", "Username", ObjUser.SponserId);
                 ViewBag.LegId = new SelectList(db.Legs, "Id", "Name", ObjUser.LegId);
                 ViewBag.MemberShipLevelId = new SelectList(db.MemberShipLevels, "Id", "Title", ObjUser.MemberShipLevelId);
 
@@ -319,6 +398,7 @@ namespace mlmStudio.Controllers
                 {
                     ViewBag.IsWorking = id;
                     ViewBag.ParentId = new SelectList(db.Users, "Id", "Username", ObjUser.ParentId);
+                    ViewBag.SponserId = new SelectList(db.Users, "Id", "Username", ObjUser.SponserId);
                     ViewBag.LegId = new SelectList(db.Legs, "Id", "Name", ObjUser.LegId);
                     ViewBag.MemberShipLevelId = new SelectList(db.MemberShipLevels, "Id", "Title", ObjUser.MemberShipLevelId);
 

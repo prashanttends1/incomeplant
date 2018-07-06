@@ -10,6 +10,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security;
 using Microsoft.AspNet.Identity;
 using System.Threading;
+using mlmStudio.Utility;
 
 
 namespace mlmStudio.Controllers
@@ -64,6 +65,27 @@ namespace mlmStudio.Controllers
             User user = new User();
             user.Username = frmCollection["name"];
             user.Password = frmCollection["password2"];
+            user.Email= frmCollection["email"];
+            var parent= frmCollection["parent"];
+            var sponser= frmCollection["sponser"]; 
+            if(db.Users.Where(u=>u.Username==user.Username).SingleOrDefault()!=null)
+            {
+                ViewBag.Msg = "Username already taken.";
+                return View();
+            }
+            
+            User userparent = db.Users.Where(u => u.Username == parent).SingleOrDefault();
+            User usersponser = db.Users.Where(u => u.Username == sponser ).SingleOrDefault();
+            if (userparent==null || usersponser==null)
+            {
+                ViewBag.Msg = "Parent or Sponser doesn't exist";
+                return View();
+            }
+            else
+            {
+                user.ParentId = userparent.Id;
+                user.SponserId = usersponser.Id;
+            }
             user.MemberShipLevelId = 1;
             db.Users.Add(user);
             db.SaveChanges();
@@ -73,7 +95,23 @@ namespace mlmStudio.Controllers
             roleuser.UserId = user.Id;
             db.RoleUsers.Add(roleuser);
             db.SaveChanges();
-            
+
+            string To = user.Email, UserID, Password, SMTPPort, Host;
+
+            var lnkHref = "<a href='http://incomeplant.azurewebsites.net/Account/login'>Click this to login your account</a>";
+
+            string subject = "Welcome To Income Plant";
+
+            string body = "<b>Congratulation!!! <br/> Your account has been successfully created.<br/> We warmly welcome you to our family and appreciate your interest for joining us.</b><br/>" + "</br>" + lnkHref + "<br/>" + "<p>If you did not make this request then you can simply ignore this email.</p><br/><p>Thanks,<br/><br/><b>Incomeplant Support</b></p>" + "<hr>" + "<img src='http://incomeplant.com/images/header-logo.png'/>" + "<br/>" + "<b>Telephone:</b> +91-8218-041-593 <p><b>Website: </b>http://incomeplant.com/</p>" + "<br/>" + "<p style='font-size: 10px;'><b>Address:</b>Harora Road, Simbhaoli, Hapur-245207</p></br><p style='font-size: 10px;'><b>Disclaimer:</b> This message (and any attachments) is private and confidential and may contain personal data or personal views which are not the views of Incomeplant unless specifically stated. If you have received this message in error, please notify us and remove it from your system. Do not use, copy or disclose the information in any way.</p>";
+
+            //Get and set the AppSettings using configuration manager.  
+
+            emailmanager.Appsettings(out UserID, out Password, out SMTPPort, out Host);
+
+            //Call send email methods.  
+
+            emailmanager.SendEmail(UserID, subject, body, To, UserID, Password, SMTPPort, Host); 
+
             ViewBag.Msg = "Register Successfully! ";
             return View();
         }
